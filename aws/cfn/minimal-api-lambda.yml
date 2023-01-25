@@ -19,6 +19,20 @@ Parameters:
   LambdaZipFile:
     Type: String
 
+Mappings: 
+  RegionToLayerArnMap: 
+    us-east-1: 
+      "LayerArn": "arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    us-east-2: 
+      "LayerArn": "arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    eu-west-1: 
+      "LayerArn": "arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    eu-west-2: 
+      "LayerArn": "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+    eu-west-3: 
+      "LayerArn": "arn:aws:lambda:eu-west-3:780235371811:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+        
+
 Resources:
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -50,19 +64,7 @@ Resources:
                   - secretsmanager:GetSecretValue
                 Resource: !GetAtt Secret.Arn
 
-  Mappings: 
-    RegionToLayerArnMap: 
-      us-east-1: 
-        "LayerArn": "arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
-      us-east-2: 
-        "LayerArn": "arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
-      eu-west-1: 
-        "LayerArn": "arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
-      eu-west-2: 
-        "LayerArn": "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
-      eu-west-3: 
-        "LayerArn": "arn:aws:lambda:eu-west-3:780235371811:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
-              
+     
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
