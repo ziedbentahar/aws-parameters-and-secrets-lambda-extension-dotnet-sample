@@ -62,7 +62,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - secretsmanager:GetSecretValue
-                Resource: !GetAtt Secret.Arn
+                Resource: !Ref Secret
 
      
   LambdaFunction:
