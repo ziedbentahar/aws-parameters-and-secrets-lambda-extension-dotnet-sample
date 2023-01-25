@@ -113,7 +113,7 @@ Resources:
   Secret:
     Type: AWS::SecretsManager::Secret
     Properties: 
-      Name: SomeSecret
+      Name: "some/secret/defined/like/this"
       GenerateSecretString: 
         "SecretStringTemplate": "{}"
         "GenerateStringKey": "password"
