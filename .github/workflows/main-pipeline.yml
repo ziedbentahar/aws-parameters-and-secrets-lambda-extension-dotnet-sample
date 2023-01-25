@@ -66,7 +66,7 @@ jobs:
 
     - name: Create or update lambda bucket
       run: |
-        aws cloudformation deploy --template-file ./aws/cfn/lambda-bucket.yml --stack-name lambda-bucket --parameter-overrides LambdaBucketName=${{ env.LAMBDA_BUCKET_NAME}}
+        aws cloudformation deploy --template-file ./aws/cfn/lambda-bucket.yml --stack-name lambda-bucket-sm --parameter-overrides LambdaBucketName=${{ env.LAMBDA_BUCKET_NAME}}
         
     - name: Upload to S3
       run: |
@@ -88,7 +88,7 @@ jobs:
 
     - name: Deploy lambda
       run: |
-        aws cloudformation deploy --template-file ./aws/cfn/minimal-api-lambda.yml --stack-name minimal-api-lambda-apigw-sample --parameter-overrides \
+        aws cloudformation deploy --template-file ./aws/cfn/minimal-api-lambda.yml --stack-name minimal-api-lambda-apigw-sm-sample --parameter-overrides \
             Application=${{ env.APPLICATION_NAME }} \
             Environment=dev \
             LambdaName=lambda \
