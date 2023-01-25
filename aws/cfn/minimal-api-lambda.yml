@@ -42,9 +42,27 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: arn:aws:logs:*:*:*
+        - PolicyName: read-secret
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !GetAtt Secret.Arn
 
-                
-            
+  Mappings: 
+    RegionToLayerArnMap: 
+      us-east-1: 
+        "LayerArn": "arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+      us-east-2: 
+        "LayerArn": "arn:aws:lambda:us-east-2:590474943231:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+      eu-west-1: 
+        "LayerArn": "arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+      eu-west-2: 
+        "LayerArn": "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+      eu-west-3: 
+        "LayerArn": "arn:aws:lambda:eu-west-3:780235371811:layer:AWS-Parameters-and-Secrets-Lambda-Extension:2"
+              
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -59,6 +77,11 @@ Resources:
       Runtime: dotnet6
       Timeout: 60
       MemorySize: 512
+      Environment:
+        Variables:
+          SECRET_NAME: SomeSecret
+      Layers:
+        - !FindInMap [RegionToLayerArnMap, !Ref "AWS::Region", LayerArn]
 
   
   HttpApi:
@@ -85,6 +108,16 @@ Resources:
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*'
       FunctionName: !GetAtt LambdaFunction.Arn    
 
+  Secret:
+    Type: AWS::SecretsManager::Secret
+    Properties: 
+      Name: SomeSecret
+      GenerateSecretString: 
+        "SecretStringTemplate": "{}"
+        "GenerateStringKey": "password"
+        "PasswordLength": 30
+        
+      
   
   
   

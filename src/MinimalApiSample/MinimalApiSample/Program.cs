@@ -3,6 +3,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddHttpClient<ISecretsProvider, SecretsProvider>(c =>
+{
+    c.BaseAddress = new Uri("http://localhost:2773");
+});
+
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 
 var app = builder.Build();
@@ -10,14 +16,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/", () =>
+app.MapGet("/", async (ISecretsProvider secretsProvider) =>
 {
-    return $"λ - dotnet 6 minimal api sample";
+    var result = await secretsProvider.GetSecretAsync(Environment.GetEnvironmentVariable("SECRET_NAME"));
+    return result;
 });
 
-app.MapGet("/ping/{name}", async (string name) =>
-{
-    return $"pong {name}";
-});
 
 app.Run();
