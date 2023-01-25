@@ -75,7 +75,7 @@ Resources:
       Handler: !Sub ${LambdaHandler}
       Role: !GetAtt LambdaExecutionRole.Arn
       Architectures:
-        - arm64
+        - x86_64
       Runtime: dotnet6
       Timeout: 60
       MemorySize: 512
