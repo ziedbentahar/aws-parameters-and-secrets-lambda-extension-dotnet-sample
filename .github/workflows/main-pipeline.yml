@@ -2,10 +2,10 @@ name: dotnet6 minimal api lambda sample pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
       
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   APPLICATION_PACKAGE: lambdwithapigwaminimalapismsample
