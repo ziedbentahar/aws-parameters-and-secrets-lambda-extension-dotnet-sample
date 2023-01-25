@@ -81,7 +81,7 @@ Resources:
       MemorySize: 512
       Environment:
         Variables:
-          SECRET_NAME: SomeSecret
+          SECRET_NAME: "some/secret/defined/like/this"
       Layers:
         - !FindInMap [RegionToLayerArnMap, !Ref "AWS::Region", LayerArn]
 
